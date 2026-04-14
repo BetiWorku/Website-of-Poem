@@ -1,0 +1,10 @@
+node_modules
+.env
+backend/data
+backend/final_server_log.txt
+backend/server_log_utf8.txt
+frontend/build
+.DS_Store
+backend/uploads/*.pdf
+backend/uploads/*.mp4
+backend/uploads/*.mp3

@@ -1,0 +1,383 @@
+/* ────────────────────────────────────────
+   Premium Tokens
+──────────────────────────────────────── */
+:root {
+  --ink: #1a1a1a;
+  --cream: #f8f5f0;
+  --muted: #71717a;
+  --accent: #92400e;
+  /* Brownish amber like in screenshot */
+  --accent-hover: #78350f;
+  --border: rgba(0, 0, 0, 0.08);
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+.dark {
+  --ink: #f8fafc;
+  --cream: #09090b;
+  --muted: #a1a1aa;
+  --accent: #f59e0b;
+  --border: rgba(255, 255, 255, 0.08);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--cream);
+  color: var(--ink);
+  line-height: 1.5;
+  transition: background-color 0.3s ease;
+}
+
+h1,
+h2,
+h3,
+.font-serif {
+  font-family: 'Playfair Display', serif;
+}
+
+/* ────────────────────────────────────────
+   App-level layout
+──────────────────────────────────────── */
+.pv-app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.pv-main {
+  flex: 1;
+  padding-top: 80px;
+  /* Offset for fixed header */
+}
+
+/* ────────────────────────────────────────
+   Navbar Styling
+──────────────────────────────────────── */
+.pv-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background-color: rgba(248, 245, 240, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+
+.dark .pv-nav {
+  background-color: rgba(9, 9, 11, 0.85);
+}
+
+.pv-nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  height: 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pv-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--ink);
+  flex-shrink: 0;
+}
+
+.pv-brand-icon {
+  color: var(--accent);
+}
+
+.pv-nav-links {
+  display: flex;
+  gap: 2.5rem;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.pv-link {
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--ink);
+  opacity: 0.6;
+  transition: all 0.2s ease;
+}
+
+.pv-link:hover,
+.pv-link.active,
+.pv-link--active {
+  opacity: 1;
+  color: var(--accent) !important;
+}
+
+.pv-nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Mobile Toggle - Basic for now */
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--ink);
+}
+
+/* ────────────────────────────────────────
+   Responsive
+──────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .pv-nav-links {
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .pv-nav-links {
+    display: none;
+    /* Hide center links on mobile */
+  }
+
+  .pv-nav-inner {
+    height: 64px;
+  }
+
+  .pv-brand {
+    font-size: 1.25rem;
+  }
+}
+
+/* ────────────────────────────────────────
+   Unified Transitions
+──────────────────────────────────────── */
+.fade-in {
+  animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* ────────────────────────────────────────
+   Animated POEM Letters
+──────────────────────────────────────── */
+.poem-letters-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.1em;
+  margin-bottom: 0.4rem;
+  position: relative;
+  z-index: 10;
+}
+
+.poem-letter {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.5rem, 7vw, 5rem);
+  font-weight: 900;
+  color: #000000;
+  display: inline-block;
+  opacity: 0;
+  text-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+  position: relative;
+  letter-spacing: 0.05em;
+}
+
+/* Each letter enters with staggered delay */
+.poem-letter.animate-float-1 {
+  animation: letterFloatIn 1.2s cubic-bezier(0.23, 1, 0.32, 1) 0.2s forwards,
+             floatDrift1 4s ease-in-out 1.5s infinite;
+}
+
+.poem-letter.animate-float-2 {
+  animation: letterFloatIn 1.2s cubic-bezier(0.23, 1, 0.32, 1) 0.45s forwards,
+             floatDrift2 5s ease-in-out 1.8s infinite;
+}
+
+.poem-letter.animate-float-3 {
+  animation: letterFloatIn 1.2s cubic-bezier(0.23, 1, 0.32, 1) 0.7s forwards,
+             floatDrift3 4.5s ease-in-out 2.1s infinite;
+}
+
+.poem-letter.animate-float-4 {
+  animation: letterFloatIn 1.2s cubic-bezier(0.23, 1, 0.32, 1) 0.95s forwards,
+             floatDrift4 5.5s ease-in-out 2.4s infinite;
+}
+
+/* Entry animation */
+@keyframes letterFloatIn {
+  0% {
+    opacity: 0;
+    transform: translateY(60px) rotate(-8deg) scale(0.7);
+    filter: blur(8px);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-10px) rotate(2deg) scale(1.05);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg) scale(1);
+    filter: blur(0);
+  }
+}
+
+/* Continuous floating - each letter unique rhythm */
+@keyframes floatDrift1 {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  25% { transform: translateY(-12px) rotate(-2deg); }
+  50% { transform: translateY(-5px) rotate(1deg); }
+  75% { transform: translateY(-15px) rotate(-1deg); }
+}
+
+@keyframes floatDrift2 {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  30% { transform: translateY(-18px) rotate(2deg); }
+  60% { transform: translateY(-8px) rotate(-1.5deg); }
+}
+
+@keyframes floatDrift3 {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  20% { transform: translateY(-8px) rotate(1.5deg); }
+  50% { transform: translateY(-20px) rotate(-2deg); }
+  80% { transform: translateY(-6px) rotate(1deg); }
+}
+
+@keyframes floatDrift4 {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  35% { transform: translateY(-14px) rotate(-1.5deg); }
+  65% { transform: translateY(-22px) rotate(2.5deg); }
+}
+
+/* Subtle ink shadow pulse on letters */
+.poem-letter::after {
+  content: attr(data-letter);
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: transparent;
+  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.12);
+  z-index: -1;
+  animation: shadowPulse 3s ease-in-out infinite;
+}
+
+@keyframes shadowPulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+
+/* Divider line under POEM letters */
+.poem-letters-divider {
+  width: 80px;
+  height: 2px;
+  background: #000000;
+  margin: 0 auto 1.5rem;
+  opacity: 0;
+  animation: dividerReveal 0.8s ease-out 1.4s forwards;
+}
+
+@keyframes dividerReveal {
+  0% {
+    opacity: 0;
+    width: 0;
+  }
+  100% {
+    opacity: 0.3;
+    width: 80px;
+  }
+}
+
+/* ────────────────────────────────────────
+   Scattered Side Letters — individually positioned, never-stop float
+──────────────────────────────────────── */
+.scattered-letter {
+  position: absolute;
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 900;
+  color: #000000;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+  opacity: 0;
+  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  filter: blur(6px);
+}
+
+/* LEFT side — 4 letters at clearly different vertical positions */
+.sl-left-1 { animation: scatterFloat1 5s   ease-in-out 0.2s infinite; }
+.sl-left-2 { animation: scatterFloat2 6.2s ease-in-out 0.6s infinite; }
+.sl-left-3 { animation: scatterFloat3 5.6s ease-in-out 1.0s infinite; }
+.sl-left-4 { animation: scatterFloat4 4.8s ease-in-out 1.4s infinite; }
+
+/* RIGHT side — 4 letters at clearly different vertical positions */
+.sl-right-1 { animation: scatterFloat2 5.5s ease-in-out 0.4s infinite; }
+.sl-right-2 { animation: scatterFloat3 6.8s ease-in-out 0.8s infinite; }
+.sl-right-3 { animation: scatterFloat1 5.2s ease-in-out 1.2s infinite; }
+.sl-right-4 { animation: scatterFloat4 7s   ease-in-out 1.6s infinite; }
+
+/* Fade in cleanly then float forever — blurred and in the background */
+@keyframes scatterFloat1 {
+  0%   { opacity: 0; transform: translateY(0px)   rotate(0deg); }
+  10%  { opacity: 0.25; transform: translateY(0px)   rotate(0deg); }
+  35%  { opacity: 0.25; transform: translateY(-14px) rotate(-3deg); }
+  65%  { opacity: 0.25; transform: translateY(-6px)  rotate(1.5deg); }
+  90%  { opacity: 0.25; transform: translateY(-18px) rotate(-2deg); }
+  100% { opacity: 0.25; transform: translateY(0px)   rotate(0deg); }
+}
+
+@keyframes scatterFloat2 {
+  0%   { opacity: 0; transform: translateY(0px)   rotate(0deg); }
+  10%  { opacity: 0.15; transform: translateY(0px)   rotate(0deg); }
+  30%  { opacity: 0.15; transform: translateY(-20px) rotate(2.5deg); }
+  55%  { opacity: 0.15; transform: translateY(-8px)  rotate(-1deg); }
+  80%  { opacity: 0.15; transform: translateY(-16px) rotate(2deg); }
+  100% { opacity: 0.15; transform: translateY(0px)   rotate(0deg); }
+}
+
+@keyframes scatterFloat3 {
+  0%   { opacity: 0; transform: translateY(0px)   rotate(0deg); }
+  10%  { opacity: 0.2; transform: translateY(0px)   rotate(0deg); }
+  25%  { opacity: 0.2; transform: translateY(-10px) rotate(-2deg); }
+  50%  { opacity: 0.2; transform: translateY(-22px) rotate(3deg); }
+  75%  { opacity: 0.2; transform: translateY(-12px) rotate(-1.5deg); }
+  100% { opacity: 0.2; transform: translateY(0px)   rotate(0deg); }
+}
+
+@keyframes scatterFloat4 {
+  0%   { opacity: 0; transform: translateY(0px)   rotate(0deg); }
+  10%  { opacity: 0.3; transform: translateY(0px)   rotate(0deg); }
+  40%  { opacity: 0.3; transform: translateY(-16px) rotate(2deg); }
+  60%  { opacity: 0.3; transform: translateY(-24px) rotate(-2.5deg); }
+  85%  { opacity: 0.3; transform: translateY(-10px) rotate(1deg); }
+  100% { opacity: 0.3; transform: translateY(0px)   rotate(0deg); }
+}
+
+/* Hide on very small screens */
+@media (max-width: 640px) {
+  .scattered-letter { display: none; }
+}
