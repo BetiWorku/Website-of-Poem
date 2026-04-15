@@ -16,6 +16,7 @@ const AdminAddPoem = () => {
     const [audioFile, setAudioFile] = useState(null);
     const [pdfFile, setPdfFile] = useState(null);
     const [imageFile, setImageFile] = useState(null);
+    const [manuscriptUrl, setManuscriptUrl] = useState('');
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
@@ -33,6 +34,7 @@ const AdminAddPoem = () => {
                         price: data.price || 0,
                         isFree: data.isFree || false
                     });
+                    setManuscriptUrl(data.manuscriptUrl || '');
                 } catch (error) {
                     setMessage('❌ Error loading poem details.');
                 }
@@ -73,6 +75,7 @@ const AdminAddPoem = () => {
         if (audioFile) data.append('audio', audioFile);
         if (pdfFile) data.append('pdf', pdfFile);
         if (imageFile) data.append('image', imageFile);
+        if (manuscriptUrl) data.append('manuscriptUrl', manuscriptUrl);
 
         try {
             if (id) {
@@ -92,6 +95,7 @@ const AdminAddPoem = () => {
             setAudioFile(null);
             setPdfFile(null);
             setImageFile(null);
+            setManuscriptUrl('');
 
             // Redirect to home or manage
             setTimeout(() => {
@@ -175,6 +179,21 @@ const AdminAddPoem = () => {
                         <span className="text-lg">✨</span>
                         <p className="text-[10px] font-bold text-amber-800 dark:text-amber-400 uppercase tracking-widest">
                             Quick Book Upload: You can now skip the "Full Content" box if you are uploading a Secure PDF.
+                        </p>
+                    </div>
+
+                    {/* Per-Poem Manuscript URL */}
+                    <div className="space-y-2">
+                        <label className="block font-sans text-sm font-bold text-ink/70 dark:text-slate-300 ml-1">📜 Manuscript View Link (Optional)</label>
+                        <input
+                            type="url"
+                            value={manuscriptUrl}
+                            onChange={(e) => setManuscriptUrl(e.target.value)}
+                            placeholder="Paste Google Drive share link (e.g. https://drive.google.com/file/d/...)"
+                            className="w-full bg-slate-50 dark:bg-slate-900 border border-border rounded-xl px-6 py-4 font-sans text-ink dark:text-white outline-none focus:ring-4 focus:ring-accent/10 focus:border-accent transition-all duration-300"
+                        />
+                        <p className="text-[10px] text-muted ml-1">🔒 This will be shown as a view-only reader below each poem. Readers cannot download or copy it.
+                            <br/>💡 Tip: In Google Drive → right-click file → Share → "Anyone with the link can view" → copy that link.
                         </p>
                     </div>
 

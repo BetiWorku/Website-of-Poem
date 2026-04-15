@@ -53,6 +53,7 @@ router.post('/', protect, upload.fields([
         const audioPath = req.files && req.files['audio'] ? req.files['audio'][0].path.replace(/\\/g, '/') : '';
         const pdfPath = req.files && req.files['pdf'] ? req.files['pdf'][0].path.replace(/\\/g, '/') : '';
         const imagePath = req.files && req.files['image'] ? req.files['image'][0].path.replace(/\\/g, '/') : '';
+        const { manuscriptUrl } = req.body;
 
         const poem = await Poem.create({
             title,
@@ -66,7 +67,8 @@ router.post('/', protect, upload.fields([
             videoPath,
             audioPath,
             pdfPath,
-            imagePath
+            imagePath,
+            manuscriptUrl: manuscriptUrl || ''
         });
 
         // Email Notification for Subscribers (Async)
@@ -311,6 +313,7 @@ router.put('/:id', protect, admin, upload.fields([
             if (req.files['pdf']) poem.pdfPath = req.files['pdf'][0].path.replace(/\\/g, '/');
             if (req.files['image']) poem.imagePath = req.files['image'][0].path.replace(/\\/g, '/');
         }
+        if (req.body.manuscriptUrl !== undefined) poem.manuscriptUrl = req.body.manuscriptUrl;
 
         const updatedPoem = await poem.save();
         res.json(updatedPoem);

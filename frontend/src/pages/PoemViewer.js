@@ -793,38 +793,69 @@ function PoemViewer() {
                         </div>
                     </div>
 
-                    {/* Digital Manuscript Area (Protected) */}
-                    {poem.pdfPath && (
+                    {/* Per-Poem Manuscript Viewer (View-Only, No Download) */}
+                    {poem.manuscriptUrl && (
                         <div style={{ marginTop: '4rem' }}>
                             <div style={{ borderBottom: `1px solid ${isDark ? 'rgba(255,255,255,0.06)' : 'rgba(140,120,81,0.1)'}`, paddingBottom: '0.5rem', marginBottom: '1.2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: '1.1rem', fontWeight: '900', color: isDark ? '#f8fafc' : '#1a1108' }}>Interactive Manuscript</h3>
-                                <span style={{ fontSize: '0.55rem', fontWeight: '900', color: '#059669' }}>PROTECTED VIEW</span>
+                                <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: '1.1rem', fontWeight: '900', color: isDark ? '#f8fafc' : '#1a1108' }}>📜 Manuscript Reader</h3>
+                                <span style={{ fontSize: '0.55rem', fontWeight: '900', color: '#059669', background: 'rgba(5,150,105,0.1)', padding: '0.2rem 0.6rem', borderRadius: '100px' }}>🔒 VIEW ONLY</span>
                             </div>
-                            <div onClick={() => setShowPdfModal(true)} style={{ position: 'relative', cursor: 'pointer', borderRadius: '16px', overflow: 'hidden', height: '260px', boxShadow: '0 10px 30px rgba(0,0,0,0.1)' }}>
-                                <iframe src={`http://localhost:5000/${poem.pdfPath.replace(/\\/g, '/')}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`} style={{ width: '100%', height: '100%', border: 'none', pointerEvents: 'none' }} title="Manuscript Preview" />
+                            <div
+                                onClick={() => setShowPdfModal(true)}
+                                style={{ position: 'relative', cursor: 'pointer', borderRadius: '16px', overflow: 'hidden', height: '260px', boxShadow: '0 10px 30px rgba(0,0,0,0.1)' }}
+                            >
+                                <iframe
+                                    src={`https://docs.google.com/viewer?url=${encodeURIComponent(poem.manuscriptUrl)}&embedded=true`}
+                                    style={{ width: '100%', height: '100%', border: 'none', pointerEvents: 'none' }}
+                                    title="Manuscript Preview"
+                                    sandbox="allow-scripts allow-same-origin"
+                                />
+                                {/* Overlay to prevent interaction on preview */}
                                 <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,0.3)', backdropFilter: 'blur(1px)' }}>
-                                    <div style={{ background: '#fff', padding: '0.6rem 1.4rem', borderRadius: '50px', fontWeight: '900', fontSize: '0.75rem' }}>📖 Open Secure Reader</div>
+                                    <div style={{ background: '#fff', padding: '0.6rem 1.4rem', borderRadius: '50px', fontWeight: '900', fontSize: '0.75rem' }}>📖 Open Manuscript Reader</div>
                                 </div>
                             </div>
                         </div>
                     )}
                 </div>
 
-                {/* ─── PDF MODAL LIGHTBOX ─── */}
-                {showPdfModal && (
+                {/* ─── MANUSCRIPT MODAL (View-Only, no download/copy) ─── */}
+                {showPdfModal && poem.manuscriptUrl && (
                     <div
-                        style={{ position: 'fixed', inset: 0, zIndex: 3000, background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '15px' }}
+                        style={{ position: 'fixed', inset: 0, zIndex: 3000, background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '15px' }}
                         onClick={(e) => { if (e.target === e.currentTarget) setShowPdfModal(false); }}
                     >
+                        <style>{`
+                            .manuscript-frame { pointer-events: none; }
+                            .manuscript-overlay {
+                                position: absolute; inset: 60px 0 0 0;
+                                z-index: 10; background: transparent;
+                                user-select: none; -webkit-user-select: none;
+                            }
+                        `}</style>
                         <div style={{
-                            width: '94vw', maxWidth: '1100px', height: '90vh', background: isDark ? '#0f172a' : '#fefaf0',
+                            width: '94vw', maxWidth: '1100px', height: '92vh', background: isDark ? '#0f172a' : '#fefaf0',
                             borderRadius: '24px', overflow: 'hidden', position: 'relative', boxShadow: '0 40px 100px rgba(0,0,0,0.6)'
                         }}>
-                            <div style={{ background: 'rgba(255,255,255,0.03)', borderBottom: '1px solid rgba(180,140,80,0.15)', padding: '1rem 1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <h3 style={{ color: isDark ? '#f1f5f9' : '#1a1108', fontWeight: '900' }}>Secure Manuscript: {poem.title}</h3>
-                                <button onClick={() => setShowPdfModal(false)} style={{ background: 'none', border: 'none', color: isDark ? '#fff' : '#000', fontSize: '1.5rem', cursor: 'pointer' }}>✕</button>
+                            {/* Header */}
+                            <div style={{ background: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(140,120,81,0.06)', borderBottom: '1px solid rgba(180,140,80,0.15)', padding: '1rem 1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                                    <span style={{ fontSize: '1.2rem' }}>📜</span>
+                                    <h3 style={{ color: isDark ? '#f1f5f9' : '#1a1108', fontWeight: '900', fontSize: '1rem' }}>{poem.title} — Manuscript</h3>
+                                    <span style={{ fontSize: '0.5rem', fontWeight: '900', color: '#059669', background: 'rgba(5,150,105,0.1)', padding: '0.15rem 0.5rem', borderRadius: '100px' }}>🔒 VIEW ONLY · NO DOWNLOAD</span>
+                                </div>
+                                <button onClick={() => setShowPdfModal(false)} style={{ background: 'none', border: 'none', color: isDark ? '#fff' : '#000', fontSize: '1.5rem', cursor: 'pointer', lineHeight: 1 }}>✕</button>
                             </div>
-                            <iframe src={`http://localhost:5000/${poem.pdfPath.replace(/\\/g, '/')}#toolbar=0`} style={{ width: '100%', height: 'calc(100% - 60px)', border: 'none' }} title="Full Manuscript" />
+                            {/* View-only overlay div that blocks right-click/drag */}
+                            <div className="manuscript-overlay" onContextMenu={(e) => e.preventDefault()} />
+                            {/* The actual viewer using Google Docs */}
+                            <iframe
+                                className="manuscript-frame"
+                                src={`https://docs.google.com/viewer?url=${encodeURIComponent(poem.manuscriptUrl)}&embedded=true`}
+                                style={{ width: '100%', height: 'calc(100% - 60px)', border: 'none', display: 'block' }}
+                                title="Full Manuscript"
+                                sandbox="allow-scripts allow-same-origin"
+                            />
                         </div>
                     </div>
                 )}

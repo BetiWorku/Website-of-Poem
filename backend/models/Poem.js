@@ -34,6 +34,9 @@ const poemSchema = new mongoose.Schema({
     pdfPath: {
         type: String, // Path to the uploaded PDF file
     },
+    manuscriptUrl: {
+        type: String, // Google Drive / external view-only link for per-poem manuscript
+    },
     imagePath: {
         type: String, // Path to the uploaded cover/thumbnail image
     },
