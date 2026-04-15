@@ -66,6 +66,12 @@ app.use((req, res) => {
 
 // Configure the port and start server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-    console.log(`🚀 [ANTIGRAVITY-v2] Server started on http://localhost:${PORT}`);
-});
+
+if (process.env.NODE_ENV !== 'test' && require.main === module) {
+    app.listen(PORT, () => {
+        console.log(`🚀 [ANTIGRAVITY-v2] Server started on http://localhost:${PORT}`);
+    });
+}
+
+// Export app for serverless deployment (Netlify/Vercel)
+module.exports = app;

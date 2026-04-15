@@ -49,19 +49,33 @@ const connectDB = async (retries = 3, delay = 2000) => {
 
   if (uri) {
     try {
+      // Logic for production database connection
+      const isProduction = process.env.NODE_ENV === 'production';
+      const isWindows = process.platform === 'win32';
+
       const conn = await tryConnect(uri);
       console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
       return;
     } catch (err) {
       console.error(`❌ Error connecting to MongoDB: ${err.message}`);
-      if (retries > 0) {
-        // If this is the first failure, try to start the local MongoDB process automatically
+      
+      const isProduction = process.env.NODE_ENV === 'production';
+      const isWindows = process.platform === 'win32';
+
+      if (retries > 0 && !isProduction && isWindows) {
+        // Only try to auto-start if on Windows and NOT in production
         if (retries === 3) autoStartMongo();
         
         console.log(`Retrying to connect in ${delay / 1000}s... (${retries} attempts left)`);
         await new Promise((res) => setTimeout(res, delay));
         return connectDB(retries - 1, Math.min(delay * 2, 30000));
       }
+      
+      if (isProduction) {
+        console.error('CRITICAL: Could not connect to MongoDB in production. Please check your MONGO_URI.');
+        process.exit(1); 
+      }
+      
       console.error('Could not connect to provided MONGO_URI. Falling back to in-memory MongoDB for development.');
     }
   } else {
