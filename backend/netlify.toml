@@ -8,4 +8,4 @@
   status = 200
 
 [functions]
-  node_bundle = true
+  directory = "functions"
