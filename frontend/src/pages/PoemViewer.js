@@ -754,28 +754,68 @@ function PoemViewer() {
                                     {poem.isPurchased ? '🧾 Official Receipt & Download' : `✨ Acquire official Collection · $${poem.price}`}
                                 </button>
 
-                                {/* Likes/Comments Bar */}
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '2.5rem' }}>
-                                    <button
-                                        onClick={handleLike}
-                                        style={{
-                                            display: 'flex', alignItems: 'center', gap: '0.6rem', background: 'none', border: 'none',
-                                            cursor: 'pointer', color: isDark ? '#94a3b8' : '#6b665c', fontWeight: '700'
-                                        }}
-                                    >
-                                        <span style={{ fontSize: '1.4rem', color: isLiked ? '#e11d48' : 'inherit' }}>{isLiked ? '❤️' : '🤍'}</span>
-                                        {likes}
-                                    </button>
-                                    <button
-                                        onClick={() => setShowReflectionModal(true)}
-                                        style={{
-                                            display: 'flex', alignItems: 'center', gap: '0.6rem', background: 'none', border: 'none',
-                                            cursor: 'pointer', color: isDark ? '#94a3b8' : '#6b665c', fontWeight: '700'
-                                        }}
-                                    >
-                                        <span style={{ fontSize: '1.4rem' }}>💬</span>
-                                        {comments.length}
-                                    </button>
+                                {/* Likes, Comments, and Share Bar */}
+                                <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', gap: '2.5rem' }}>
+                                    {/* Action Metrics */}
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '2.5rem' }}>
+                                        <button
+                                            onClick={handleLike}
+                                            style={{
+                                                display: 'flex', alignItems: 'center', gap: '0.6rem', background: 'none', border: 'none',
+                                                cursor: 'pointer', color: isDark ? '#94a3b8' : '#6b665c', fontWeight: '700'
+                                            }}
+                                        >
+                                            <span style={{ fontSize: '1.4rem', color: isLiked ? '#e11d48' : 'inherit' }}>{isLiked ? '❤️' : '🤍'}</span>
+                                            {likes}
+                                        </button>
+                                        <button
+                                            onClick={() => setShowReflectionModal(true)}
+                                            style={{
+                                                display: 'flex', alignItems: 'center', gap: '0.6rem', background: 'none', border: 'none',
+                                                cursor: 'pointer', color: isDark ? '#94a3b8' : '#6b665c', fontWeight: '700'
+                                            }}
+                                        >
+                                            <span style={{ fontSize: '1.4rem' }}>💬</span>
+                                            {comments.length}
+                                        </button>
+                                    </div>
+                                    
+                                    <div style={{ width: '1px', height: '24px', background: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(140, 120, 81, 0.2)' }}></div>
+                                    
+                                    {/* Social Share Buttons */}
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '1.2rem' }}>
+                                        <span style={{ fontSize: '0.8rem', fontWeight: '700', color: isDark ? '#64748b' : '#a09078', textTransform: 'uppercase' }}>Share:</span>
+                                        <a
+                                            href={`https://t.me/share/url?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent('Read this beautiful poem: ' + poem.title)}`}
+                                            target="_blank" rel="noopener noreferrer"
+                                            style={{ fontSize: '1.4rem', textDecoration: 'none', transition: 'transform 0.2s' }}
+                                            onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.2)'}
+                                            onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                                            title="Share on Telegram"
+                                        >
+                                            ✈️
+                                        </a>
+                                        <a
+                                            href={`https://api.whatsapp.com/send?text=${encodeURIComponent('Read this beautiful poem: ' + poem.title + ' ' + window.location.href)}`}
+                                            target="_blank" rel="noopener noreferrer"
+                                            style={{ fontSize: '1.4rem', textDecoration: 'none', transition: 'transform 0.2s' }}
+                                            onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.2)'}
+                                            onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                                            title="Share on WhatsApp"
+                                        >
+                                            💬
+                                        </a>
+                                        <a
+                                            href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`}
+                                            target="_blank" rel="noopener noreferrer"
+                                            style={{ fontSize: '1.4rem', textDecoration: 'none', transition: 'transform 0.2s' }}
+                                            onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.2)'}
+                                            onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                                            title="Share on Facebook"
+                                        >
+                                            📘
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
 
