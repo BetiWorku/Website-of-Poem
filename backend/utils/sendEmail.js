@@ -1,11 +1,14 @@
 const nodemailer = require('nodemailer');
+require('dns').setDefaultResultOrder('ipv4first');
 
 const sendEmail = async (options) => {
     // Automatically clean up spaces if the user pasted an App Password with spaces
     const cleanPass = (process.env.EMAIL_PASS || '').replaceAll(' ', '');
 
     const transporter = nodemailer.createTransport({
-        service: 'gmail',
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: true,
         auth: {
             user: process.env.EMAIL_USER,
             pass: cleanPass,

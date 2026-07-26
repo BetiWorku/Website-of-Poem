@@ -4,7 +4,7 @@ const User = require('./models/User');
 require('dotenv').config();
 
 const LOCAL_URI = 'mongodb://127.0.0.1:27017/poetry-platform';
-const CLOUD_URI = 'mongodb+srv://bwwmas_db_user:12345678@cluster0.jbmmsqz.mongodb.net/poetry-platform?retryWrites=true&w=majority&appName=Cluster0';
+const CLOUD_URI = 'mongodb+srv://bwwmas_db_user:PoetryPlatform2026@cluster0.q5cj8y9.mongodb.net/poetry-platform?retryWrites=true&w=majority&appName=Cluster0';
 
 async function migrate() {
     try {
