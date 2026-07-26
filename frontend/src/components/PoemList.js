@@ -516,7 +516,7 @@ function PoemCard({ poem, navigate }) {
                         </span>
                     </div>
                     {/* Price + CTA row */}
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                         <span style={{ fontSize: '1.3rem', fontWeight: '900', color: 'var(--text-main)' }}>
                             {poem.pdfPath ? '📖' : `$${poem.price || 0}`}
                         </span>
@@ -535,47 +535,6 @@ function PoemCard({ poem, navigate }) {
                         }}>
                             {poem.pdfPath ? 'Open Book' : 'Read Now'}
                         </button>
-                    </div>
-
-                    {/* Social Share Buttons */}
-                    <div style={{
-                        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem',
-                        borderTop: '1px solid rgba(140, 120, 81, 0.1)', paddingTop: '0.8rem', marginTop: '0.5rem'
-                    }}>
-                        <span style={{ fontSize: '0.7rem', fontWeight: 'bold', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Share:</span>
-                        <a
-                            href={`https://t.me/share/url?url=${encodeURIComponent(window.location.origin + '/poems/' + poem._id)}&text=${encodeURIComponent('Read this beautiful poem: ' + poem.title)}`}
-                            target="_blank" rel="noopener noreferrer"
-                            style={{ fontSize: '1.2rem', textDecoration: 'none', transition: 'transform 0.2s' }}
-                            onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.2)'}
-                            onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
-                            title="Share on Telegram"
-                            onClick={(e) => e.stopPropagation()}
-                        >
-                            ✈️
-                        </a>
-                        <a
-                            href={`https://api.whatsapp.com/send?text=${encodeURIComponent('Read this beautiful poem: ' + poem.title + ' ' + window.location.origin + '/poems/' + poem._id)}`}
-                            target="_blank" rel="noopener noreferrer"
-                            style={{ fontSize: '1.2rem', textDecoration: 'none', transition: 'transform 0.2s' }}
-                            onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.2)'}
-                            onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
-                            title="Share on WhatsApp"
-                            onClick={(e) => e.stopPropagation()}
-                        >
-                            💬
-                        </a>
-                        <a
-                            href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.origin + '/poems/' + poem._id)}`}
-                            target="_blank" rel="noopener noreferrer"
-                            style={{ fontSize: '1.2rem', textDecoration: 'none', transition: 'transform 0.2s' }}
-                            onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.2)'}
-                            onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
-                            title="Share on Facebook"
-                            onClick={(e) => e.stopPropagation()}
-                        >
-                            📘
-                        </a>
                     </div>
                 </div>
             </div>
